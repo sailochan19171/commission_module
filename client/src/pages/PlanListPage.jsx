@@ -144,8 +144,8 @@ export default function PlanListPage() {
                 </>
               ) : plan.kpi_count === 0 ? (
                 <>
-                  <span className="text-xs text-sky-500">🚚 Trip-Based:</span>
-                  <span className="text-sm font-semibold text-sky-700">Solo 12 · Pair 7 · Team 5 AED/day</span>
+                  <span className="text-xs text-sky-500">🚚 Crate-Based:</span>
+                  <span className="text-sm font-semibold text-sky-700">Solo 12 · Pair 7 · Team 5 AED/crate</span>
                 </>
               ) : (
                 <>
