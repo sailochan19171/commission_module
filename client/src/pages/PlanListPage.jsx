@@ -132,7 +132,7 @@ export default function PlanListPage() {
               </div>
               <div className="flex items-center gap-2 text-sm text-neutral-500">
                 <Target className="w-4 h-4" />
-                <span>{plan.kpi_count > 0 ? `${plan.kpi_count} KPIs` : '🚚 Per-Trip Commission'}</span>
+                <span>{plan.kpi_count > 0 ? `${plan.kpi_count} KPIs` : '🚚 Per-Crate Commission'}</span>
               </div>
             </div>
 
