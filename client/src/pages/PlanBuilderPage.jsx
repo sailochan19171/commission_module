@@ -109,7 +109,7 @@ function suggestTarget(kpi) {
 const tabs = [
   { id: 'general', label: 'General', icon: Settings },
   { id: 'kpis', label: 'KPIs & Weights', icon: Target },
-  { id: 'helper-trips', label: 'Helper Trips', icon: Truck },
+  { id: 'helper-trips', label: 'Helper Crates', icon: Truck },
   { id: 'slabs', label: 'Slabs', icon: BarChart3 },
   { id: 'rules', label: 'Product & Customer Scope', icon: Filter },
   { id: 'eligibility', label: 'Eligibility', icon: ShieldCheck },
@@ -1833,7 +1833,7 @@ function HelperTripsTab({ plan }) {
         setPreviewEmp(deliveryEmps[0].id);
       }
     } catch (err) {
-      toast.error('Failed to load helper trips data');
+      toast.error('Failed to load helper crates data');
     } finally {
       setLoading(false);
     }
@@ -1880,7 +1880,7 @@ function HelperTripsTab({ plan }) {
     setSaving(true);
     try {
       await api.put(`/trips/rates/${planId}`, { rates });
-      toast.success('Helper trip rates saved');
+      toast.success('Helper crate rates saved');
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -1900,7 +1900,7 @@ function HelperTripsTab({ plan }) {
     if (newTrip.participant_ids.length === 0) return toast.error('Select at least 1 participant');
     try {
       await api.post('/trips', newTrip);
-      toast.success('Trip created');
+      toast.success('Crate created');
       setShowNewTrip(false);
       setNewTrip({ ...newTrip, trip_number: '', participant_ids: [] });
       loadAll();
@@ -1943,10 +1943,10 @@ function HelperTripsTab({ plan }) {
         <div>
           <h3 className="font-semibold text-neutral-900 flex items-center gap-2">
             <Truck className="w-5 h-5 text-primary-600" />
-            Helper Trip Commission
+            Helper Crate Commission
           </h3>
           <p className="text-sm text-neutral-500">
-            Pay helpers per completed trip. Rate depends on team size (fewer helpers = higher per-person rate).
+            Pay helpers per completed crate. Rate depends on team size (fewer helpers = higher per-person rate).
           </p>
         </div>
       </div>
@@ -1960,7 +1960,7 @@ function HelperTripsTab({ plan }) {
           <div className="flex-1">
             <h4 className="font-semibold text-neutral-900">Rate Table by Team Size</h4>
             <p className="text-sm text-neutral-600">
-              Define how much each helper earns based on how many people share the trip.
+              Define how much each helper earns based on how many people share the crate.
               <span className="block mt-1 text-xs text-neutral-500">
                 Example: 1 helper solo = 12 AED · 2 helpers sharing = 7 AED each · 3 helpers = 5 AED each
               </span>
@@ -2009,7 +2009,7 @@ function HelperTripsTab({ plan }) {
                     />
                   </td>
                   <td className="py-2 px-4 text-center text-xs text-neutral-500 hidden md:table-cell">
-                    Each helper earns <strong className="text-neutral-700">{r.rate_per_person} AED</strong> per trip
+                    Each helper earns <strong className="text-neutral-700">{r.rate_per_person} AED</strong> per crate
                   </td>
                   <td className="py-2 px-4 text-center">
                     <button onClick={() => removeRate(i)} className="p-1 hover:bg-rose-50 rounded">
@@ -2043,11 +2043,11 @@ function HelperTripsTab({ plan }) {
       <div className="card p-5 space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h4 className="font-semibold text-neutral-900">Trip Log</h4>
+            <h4 className="font-semibold text-neutral-900">Crate Log</h4>
             <p className="text-xs text-neutral-500">
               {showAllPeriods
-                ? `${trips.length} trips total (all periods)`
-                : `${visibleTrips.length} trips in ${tripFilterPeriod} · ${trips.length} total`
+                ? `${trips.length} crates total (all periods)`
+                : `${visibleTrips.length} crates in ${tripFilterPeriod} · ${trips.length} total`
               }
             </p>
           </div>
@@ -2065,12 +2065,12 @@ function HelperTripsTab({ plan }) {
               }}
             >
               <option value="__ALL__">📋 All Periods ({trips.length})</option>
-              <optgroup label="Periods with trips">
+              <optgroup label="Periods with crates">
                 {availablePeriods.map(p => {
                   const count = trips.filter(t => t.period === p).length;
                   return (
                     <option key={p} value={p}>
-                      {p} ({count} {count === 1 ? 'trip' : 'trips'})
+                      {p} ({count} {count === 1 ? 'crate' : 'crates'})
                     </option>
                   );
                 })}
@@ -2087,7 +2087,7 @@ function HelperTripsTab({ plan }) {
               }}
             />
             <button onClick={() => setShowNewTrip(!showNewTrip)} className="btn-primary flex items-center gap-1.5">
-              <Plus className="w-4 h-4" /> Log New Trip
+              <Plus className="w-4 h-4" /> Log New Crate
             </button>
           </div>
         </div>
@@ -2097,8 +2097,8 @@ function HelperTripsTab({ plan }) {
           <div className="p-4 rounded-lg bg-neutral-50 border border-neutral-200 space-y-3">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
               <div>
-                <label className="label">Trip Number</label>
-                <input className="input" value={newTrip.trip_number} onChange={e => setNewTrip({...newTrip, trip_number: e.target.value})} placeholder="TRIP-001" />
+                <label className="label">Crate Number</label>
+                <input className="input" value={newTrip.trip_number} onChange={e => setNewTrip({...newTrip, trip_number: e.target.value})} placeholder="CRATE-001" />
               </div>
               <div>
                 <label className="label">Start Date</label>
@@ -2171,7 +2171,7 @@ function HelperTripsTab({ plan }) {
               })()}
             </div>
             <div className="flex gap-2">
-              <button onClick={createTrip} className="btn-primary">Create Trip</button>
+              <button onClick={createTrip} className="btn-primary">Create Crate</button>
               <button onClick={() => setShowNewTrip(false)} className="px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-100 rounded-lg">Cancel</button>
             </div>
           </div>
@@ -2182,7 +2182,7 @@ function HelperTripsTab({ plan }) {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-neutral-200">
-                <th className="text-left py-2 px-3 font-medium text-neutral-600">Trip #</th>
+                <th className="text-left py-2 px-3 font-medium text-neutral-600">Crate #</th>
                 <th className="text-left py-2 px-3 font-medium text-neutral-600">Dates</th>
                 <th className="text-center py-2 px-3 font-medium text-neutral-600">Days</th>
                 <th className="text-left py-2 px-3 font-medium text-neutral-600">Team</th>
@@ -2194,11 +2194,11 @@ function HelperTripsTab({ plan }) {
               {visibleTrips.length === 0 && (
                 <tr>
                   <td colSpan="6" className="py-8 text-center text-neutral-400 text-sm">
-                    No trips found for <strong>{tripFilterPeriod}</strong>.
+                    No crates found for <strong>{tripFilterPeriod}</strong>.
                     {' '}
                     <button onClick={() => setShowAllPeriods(true)} className="underline text-primary-600">Show all periods</button>
                     {' '}or{' '}
-                    <button onClick={() => setShowNewTrip(true)} className="underline text-primary-600">log a new trip</button>.
+                    <button onClick={() => setShowNewTrip(true)} className="underline text-primary-600">log a new crate</button>.
                   </td>
                 </tr>
               )}
@@ -2238,7 +2238,7 @@ function HelperTripsTab({ plan }) {
           </table>
         </div>
         {visibleTrips.length > 50 && (
-          <p className="text-xs text-neutral-400 text-center">Showing first 50 of {visibleTrips.length} trips</p>
+          <p className="text-xs text-neutral-400 text-center">Showing first 50 of {visibleTrips.length} crates</p>
         )}
       </div>
 
@@ -2246,7 +2246,7 @@ function HelperTripsTab({ plan }) {
       <div className="card p-5 bg-gradient-to-br from-emerald-50/50 via-white to-teal-50/50 border-emerald-100">
         <h4 className="font-semibold text-neutral-900 mb-2">Commission Preview</h4>
         <p className="text-xs text-neutral-500 mb-3">
-          Check how much an employee earned from helper trips in a selected period
+          Check how much an employee earned from helper crates in a selected period
           {selectedPeriod && <span className="ml-1">· synced with header calendar: <strong>{selectedPeriod}</strong></span>}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -2274,7 +2274,7 @@ function HelperTripsTab({ plan }) {
         {previewEmp && preview && preview.total_trips === 0 && (
           <div className="mt-3 p-3 rounded-lg bg-amber-50 border border-amber-200 text-sm text-amber-800 flex items-start gap-2">
             <Info className="w-4 h-4 flex-shrink-0 mt-0.5" />
-            <span>No trips found for this employee in <strong>{previewPeriod}</strong>. Try another period — the trip you just logged may be in a different month.</span>
+            <span>No crates found for this employee in <strong>{previewPeriod}</strong>. Try another period — the crate you just logged may be in a different month.</span>
           </div>
         )}
 
@@ -2282,7 +2282,7 @@ function HelperTripsTab({ plan }) {
           <div className="mt-4 p-4 rounded-lg bg-white border border-emerald-200 space-y-3">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-center">
               <div>
-                <div className="text-xs text-neutral-500">Total Trips</div>
+                <div className="text-xs text-neutral-500">Total Crates</div>
                 <div className="text-xl font-bold text-neutral-900">{preview.total_trips}</div>
               </div>
               <div>
@@ -2309,7 +2309,7 @@ function HelperTripsTab({ plan }) {
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="text-neutral-500">
-                      <th className="text-left py-1.5 px-2">Trip</th>
+                      <th className="text-left py-1.5 px-2">Crate</th>
                       <th className="text-left py-1.5 px-2">Dates</th>
                       <th className="text-center py-1.5 px-2">Days</th>
                       <th className="text-center py-1.5 px-2">Team</th>
