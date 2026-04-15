@@ -18,9 +18,20 @@ export default function PlanListPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const plans = statusFilter === 'all'
+  const planOrder = ['salesman', 'supervisor', 'helper'];
+  const getPlanOrderIndex = (name = '') => {
+    const lower = name.toLowerCase();
+    const idx = planOrder.findIndex(key => lower.includes(key));
+    return idx === -1 ? planOrder.length : idx;
+  };
+
+  const filtered = statusFilter === 'all'
     ? allPlans
     : allPlans.filter(p => p.status === statusFilter);
+
+  const plans = [...filtered].sort(
+    (a, b) => getPlanOrderIndex(a.name) - getPlanOrderIndex(b.name)
+  );
 
   const activeCount = allPlans.filter(p => p.status === 'active').length;
   const draftCount = allPlans.filter(p => p.status === 'draft').length;
